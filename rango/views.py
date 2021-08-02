@@ -1,48 +1,48 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render
+from django.shortcuts import HttpResponse
+from rango.models import Category
+from rango.models import Page
+from rango.forms import CategoryForm
+from django.shortcuts import redirect
 from django.urls import reverse
+from rango.forms import PageForm, UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from rango.models import Category, Page
-from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from datetime import datetime
 
 
+
 def index(request):
-    category_list = Category.objects.order_by('-likes')[:5]
-    page_list = Page.objects.order_by('-views')[:5]
+    category_list=Category.objects.order_by('-likes')[:5]
+    page_list=Page.objects.order_by('-views')[:5]
 
     context_dict = {}
     context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
     context_dict['categories'] = category_list
     context_dict['pages'] = page_list
-    context_dict['extra'] = 'From the model solution on GitHub'
-
+    
     visitor_cookie_handler(request)
 
     return render(request, 'rango/index.html', context=context_dict)
-
-
+    
 def about(request):
-    # Spoiler: you don't need to pass a context dictionary here.
-    return render(request, 'rango/about.html')
-
+    context_dict = {}
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+    return render(request, 'rango/about.html', context=context_dict)
 
 def show_category(request, category_name_slug):
-    context_dict = {}
-
+    context_dict= {}
     try:
         category = Category.objects.get(slug=category_name_slug)
-        pages = Page.objects.filter(category=category)
-
+        pages = Page.objects.filter(category=category) 
         context_dict['pages'] = pages
         context_dict['category'] = category
     except Category.DoesNotExist:
-        context_dict['pages'] = None
         context_dict['category'] = None
-
+        context_dict['pages'] = None
+    
     return render(request, 'rango/category.html', context=context_dict)
-
 
 @login_required
 def add_category(request):
@@ -53,12 +53,11 @@ def add_category(request):
 
         if form.is_valid():
             form.save(commit=True)
-            return redirect(reverse('rango:index'))
+            return redirect('/rango/')
         else:
             print(form.errors)
-
+    
     return render(request, 'rango/add_category.html', {'form': form})
-
 
 @login_required
 def add_page(request, category_name_slug):
@@ -67,9 +66,8 @@ def add_page(request, category_name_slug):
     except:
         category = None
 
-    # You cannot add a page to a Category that does not exist... DM
     if category is None:
-        return redirect(reverse('rango:index'))
+        return redirect('/rango/')
 
     form = PageForm()
 
@@ -85,11 +83,10 @@ def add_page(request, category_name_slug):
 
                 return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))
         else:
-            print(form.errors)  # This could be better done; for the purposes of TwD, this is fine. DM.
-
+            print(form.errors) 
+    
     context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_page.html', context=context_dict)
-
 
 def register(request):
     registered = False
@@ -108,7 +105,7 @@ def register(request):
 
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
-
+            
             profile.save()
             registered = True
         else:
@@ -116,9 +113,8 @@ def register(request):
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-
-    return render(request, 'rango/register.html',
-                  context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+    
+    return render(request, 'rango/register.html', context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
 def user_login(request):
@@ -140,32 +136,30 @@ def user_login(request):
     else:
         return render(request, 'rango/login.html')
 
-
 @login_required
 def restricted(request):
     return render(request, 'rango/restricted.html')
-
 
 @login_required
 def user_logout(request):
     logout(request)
     return redirect(reverse('rango:index'))
 
+def get_server_side_cookie(request, cookie, default_val=None):
+    val = request.session.get(cookie)
+    if not val:
+        val = default_val
+    return val
+
 def visitor_cookie_handler(request):
     visits = int(get_server_side_cookie(request, 'visits', '1'))
     last_visit_cookie = get_server_side_cookie(request, 'last_visit', str(datetime.now()))
     last_visit_time = datetime.strptime(last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
 
-    if (datetime.now() - last_visit_time).days > 0:
+    if (datetime.now() - last_visit_time).seconds > 0:
         visits = visits + 1
         request.session['last_visit'] = str(datetime.now())
     else:
         request.session['last_visit'] = last_visit_cookie
 
     request.session['visits'] = visits
-
-def get_server_side_cookie(request, cookie, default_val=None):
-    val = request.session.get(cookie)
-    if not val:
-         val = default_val
-    return val

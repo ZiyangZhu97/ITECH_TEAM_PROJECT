@@ -5,38 +5,36 @@ import django
 django.setup()
 from rango.models import Category, Page
 
-# For an explanation of what is going on here, please refer to the TwD book.
-
 def populate():
     python_pages = [
         {'title': 'Official Python Tutorial',
          'url':'http://docs.python.org/3/tutorial/',
-         'views': 114,},
+         'views': 1},
         {'title':'How to Think like a Computer Scientist',
          'url':'http://www.greenteapress.com/thinkpython/',
-         'views': 53},
+         'views': 10},
         {'title':'Learn Python in 10 Minutes',
          'url':'http://www.korokithakis.net/tutorials/python/',
-         'views': 20} ]
+         'views': 100} ]
     
     django_pages = [
         {'title':'Official Django Tutorial',
          'url':'https://docs.djangoproject.com/en/2.1/intro/tutorial01/',
-         'views': 32},
+         'views': 100},
         {'title':'Django Rocks',
          'url':'http://www.djangorocks.com/',
-         'views': 12},
+         'views': 10},
         {'title':'How to Tango with Django',
          'url':'http://www.tangowithdjango.com/',
-         'views': 1258} ]
+         'views': 1} ]
     
     other_pages = [
         {'title':'Bottle',
          'url':'http://bottlepy.org/docs/dev/',
-         'views': 54},
+         'views': 2},
         {'title':'Flask',
          'url':'http://flask.pocoo.org',
-         'views': 64} ]
+         'views': 3} ]
     
     cats = {'Python': {'pages': python_pages, 'views': 128, 'likes': 64},
             'Django': {'pages': django_pages, 'views': 64, 'likes': 32},
@@ -45,11 +43,11 @@ def populate():
     for cat, cat_data in cats.items():
         c = add_cat(cat, views=cat_data['views'], likes=cat_data['likes'])
         for p in cat_data['pages']:
-            add_page(c, p['title'], p['url'], views=p['views'])
+            add_page(c, p['title'], p['url'], p['views'])
     
     for c in Category.objects.all():
         for p in Page.objects.filter(category=c):
-            print(f'- {c}: {p}')
+            print(f'- {c}: {p}')############################
 
 def add_page(cat, title, url, views=0):
     p = Page.objects.get_or_create(category=cat, title=title)[0]
@@ -65,7 +63,6 @@ def add_cat(name, views=0, likes=0):
     c.save()
     return c
 
-# Start execution here!
 if __name__ == '__main__':
     print('Starting Rango population script...')
     populate()
