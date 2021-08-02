@@ -25,9 +25,16 @@ class Page(models.Model):
     URL_MAX_LENGTH = 200
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    title = models.CharField(max_length=TITLE_MAX_LENGTH)
+    title = models.CharField(max_length=TITLE_MAX_LENGTH, unique=True)
     url = models.URLField()
     views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Page, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.title
