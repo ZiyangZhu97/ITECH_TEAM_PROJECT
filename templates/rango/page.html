@@ -20,7 +20,7 @@
     <div>
         <strong>{{ page.likes }}</strong> people like this tutorial and <strong>{{ page.dislikes }}</strong> don't
         <p>
-        Add like Add dislike Add Comment
+        Add like Add dislike <a href="{% url 'rango:add_comment' page.slug %}">Add Comment</a>
     </div>
 
     <div><p>

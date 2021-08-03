@@ -51,7 +51,7 @@ class UserProfile(models.Model):
 
 class Comment(models.Model):
     COMMENT_MAX_LENGTH = 4000
-    TIME_MAX_LENGTH = 64
+
     author = models.ForeignKey(User, on_delete=CASCADE)
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
     content = models.TextField(max_length=COMMENT_MAX_LENGTH)

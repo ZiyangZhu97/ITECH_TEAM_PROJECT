@@ -2,13 +2,13 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Add a Page
+    Add a Comment
 {% endblock %}
 
 {% block body_block %}
-<h1>Add a Page to {{ category.name }}</h1>
+<h1>Add your Comment to '{{ page.title }}'</h1>
 <div>
-    <form id="add_page_form" method="post" action="{% url 'rango:add_page' category.slug %}">
+    <form id="add_comment_form" method="post" action="{% url 'rango:add_comment' page.slug %}">
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}
             {{ hidden }}
@@ -16,10 +16,11 @@
         {% for field in form.visible_fields %}
             {{ field.errors }}
             {{ field.help_text }}
+            <p>
             {{ field }}
             <p>
         {% endfor %}
-        <input type="submit" name="submit" value="Add Page" />
+        <input type="submit" name="submit" value="Add Comment" />
     </form>
 </div>
 {% endblock %}

@@ -16,5 +16,6 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
 
     path('<slug:page_name_slug>/', views.show_page, name='show_page'),
+    path('<slug:page_name_slug>/add-comment', views.add_comment, name='add_comment'),
 
 ]
