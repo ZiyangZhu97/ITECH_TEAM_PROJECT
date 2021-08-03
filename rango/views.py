@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
-from rango.models import Category, Page, User, UserProfile
+from rango.models import Category, Page, User, UserProfile, Comment
 from rango.forms import CategoryForm
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -52,9 +52,13 @@ def show_page(request, page_name_slug):
     context_dict= {}
     try:
         page = Page.objects.get(slug=page_name_slug) 
+        comments = Comment.objects.filter(page=page)
         context_dict['page'] = page
+        context_dict['comments'] = comments
     except Page.DoesNotExist:
         context_dict['page'] = None
+    except Comment.DoesNotExist:
+        context_dict['comments'] = None
     
     return render(request, 'rango/page.html', context=context_dict)
 
