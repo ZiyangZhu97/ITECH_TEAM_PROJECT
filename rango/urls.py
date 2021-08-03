@@ -15,6 +15,6 @@ urlpatterns = [
     path('restricted/', views.restricted, name='restricted'),
     path('logout/', views.user_logout, name='logout'),
 
-    path('category/<slug:page_name_slug>/', views.show_page, name='show_page'),
+    path('<slug:page_name_slug>/', views.show_page, name='show_page'),
 
 ]
