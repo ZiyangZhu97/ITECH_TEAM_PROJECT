@@ -2,20 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5e0d913b-ced9-42dc-a66b-803e8c0eace0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/images/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/rango/base-old.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/registration/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/registration/logout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/registration/password_change_done.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/registration/password_change_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/registration/registration_closed.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/registration/registration_form.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/tango_with_django_project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tango_with_django_project.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/populate_rango.py" beforeDir="false" afterPath="$PROJECT_DIR$/populate_rango.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rango/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/rango/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rango/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/rango/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rango/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/rango/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rango/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/rango/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rango/templatetags/rango_template_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/rango/templatetags/rango_template_tags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rango/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/rango/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rango/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/rango/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/rango.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/rango.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/tango_with_django_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/tango_with_django_project/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tango_with_django_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/tango_with_django_project/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/rango/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/rango/about.html" afterDir="false" />
@@ -37,8 +35,23 @@
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1wBTwMhBXo3tLYShlZ0PtEPhFil" />
   <component name="ProjectViewState">
@@ -46,10 +59,17 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\2556039l\Workspace\tango_with_django_project\static\images" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="tango_with_django_project" type="Python.DjangoServer" factoryName="Django server">
@@ -60,7 +80,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
         <env name="DJANGO_SETTINGS_MODULE" value="tango_with_django_project.settings" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="D:\anaconda\envs\django\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -85,7 +105,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627931221464</updated>
-      <workItem from="1627931223550" duration="1697000" />
+      <workItem from="1627931223550" duration="11945000" />
+      <workItem from="1627950061536" duration="250000" />
+      <workItem from="1627950375569" duration="3000" />
+      <workItem from="1627950387052" duration="786000" />
+      <workItem from="1627989532531" duration="3897000" />
+      <workItem from="1628008042369" duration="5827000" />
     </task>
     <servers />
   </component>
@@ -102,5 +127,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
