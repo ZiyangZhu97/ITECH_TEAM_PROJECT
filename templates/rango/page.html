@@ -33,9 +33,9 @@
         {% if comments %}
             <ul>
             {% for c in comments %}
-                <strong>{{c.author.username}}</strong><p></p>
+                <li><strong>{{c.author.username}}</strong>:<p></p>
                 {{c.content}}<p></p>
-                {{c.writtenTime}} <strong>{{c.likes}}</strong> likes <strong>{{c.dislikes}}</strong> dislikes<p></p>
+                {{c.writtenTime}} <strong>{{c.likes}}</strong> likes <strong>{{c.dislikes}}</strong> dislikes<p></p></li>
             {% endfor %}
             </ul>
         {% endif %}
