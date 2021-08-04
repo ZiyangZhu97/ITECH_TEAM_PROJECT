@@ -10,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
 
-
 def index(request):
     TOPX = 5;
     liked_category_list=Category.objects.order_by('-likes')[:TOPX]
@@ -53,13 +52,18 @@ def show_profile(request, username):
     try:
         user = request.user
         user1 = User.objects.get(username=username)
-        user_profile = UserProfile.objects.get_or_create(user=user)[0]
+        if request.user.is_authenticated:
+            user_profile = UserProfile.objects.get_or_create(user=user)[0]
+        else:
+            user_profile = None
         user_profile1  = UserProfile.objects.get_or_create(user=user1)[0]
         context_dict['user'] = user
         context_dict['user1'] = user1
         context_dict['user_profile'] = user_profile
         context_dict['user_profile1'] = user_profile1
     except User.DoesNotExist:
+        user1 = User.objects.get(username=username)
+        user_profile1  = UserProfile.objects.get_or_create(user=user1)[0]
         context_dict['user'] = None
         context_dict['user1'] = None
         context_dict['user_profile'] = None
