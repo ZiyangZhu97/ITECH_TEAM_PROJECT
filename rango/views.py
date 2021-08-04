@@ -4,11 +4,7 @@ from rango.models import Category, Page, User, UserProfile, Comment
 from rango.forms import CategoryForm
 from django.shortcuts import redirect
 from django.urls import reverse
-<<<<<<< HEAD
-from rango.forms import PageForm, UserForm, UserProfileForm, CommentForm
-=======
 from rango.forms import PageForm, UserForm, UserProfileForm, CommentForm, UserAvatarForm
->>>>>>> 42852633793f39703c97814a8c3e16ecff4d19ce
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -52,8 +48,6 @@ def show_category(request, category_name_slug):
     
     return render(request, 'rango/category.html', context=context_dict)
 
-<<<<<<< HEAD
-=======
 def show_profile(request, username):
     context_dict= {}
     try:
@@ -101,7 +95,6 @@ def update_avatar(request,username):
 
     
 
->>>>>>> 42852633793f39703c97814a8c3e16ecff4d19ce
 def show_page(request, page_name_slug):
     context_dict= {}
     try:
