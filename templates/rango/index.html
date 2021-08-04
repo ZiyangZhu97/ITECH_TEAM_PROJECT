@@ -9,20 +9,32 @@
 <h1>Rango says...</h1>
 <div>
     {% if user.is_authenticated %}
-        howdy {{ user.username }}!
+        hello, {{ user.username }}!
     {% else %}
         hey there partner!
     {% endif %}
     <br />
     <strong>{{ boldmessage }}</strong><br />
+    <hr />
 </div>
 
 <div>
-    <h2>Most Liked Categories</h2>
-{% if categories %}
+    <h2>Most Viewed {{TOPX}} Categories</h2>
+{% if viewed_categories %}
     <ul>
-    {% for category in categories %}
-        <li><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a></li>
+    {% for category in viewed_categories %}
+        <li><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a> Total visits: {{category.views}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <strong>There are no categories present.</strong>
+{% endif %}
+
+    <h2>Most Liked {{TOPX}} Categories</h2>
+{% if liked_categories %}
+    <ul>
+    {% for category in liked_categories %}
+        <li><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a> Total likes: {{category.likes}}</li>
     {% endfor %}
     </ul>
 {% else %}
@@ -31,11 +43,22 @@
 </div>
 
 <div>
-    <h2>Most Viewed Pages</h2>
-{% if pages %}
+    <h2>Most Viewed {{TOPX}} Pages</h2>
+{% if viewed_pages %}
     <ul>
-    {% for page in pages %}
-        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+    {% for page in viewed_pages %}
+        <li><a href="{% url 'rango:show_page' page.slug %}">{{ page.title }}</a> Total visits: {{page.views}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <strong>There are no pages present.</strong>
+{% endif %}
+
+    <h2>Most Liked {{TOPX}} Pages</h2>
+{% if liked_pages %}
+    <ul>
+    {% for page in liked_pages %}
+        <li><a href="{% url 'rango:show_page' page.slug %}">{{ page.title }}</a> Total likes: {{page.likes}}</li>
     {% endfor %}
     </ul>
 {% else %}
@@ -43,5 +66,5 @@
 {% endif %}
 </div>
 
-<img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango" />
+<img src="{% static 'images/index.jpg' %}" alt="Picture of Index" />
 {% endblock %}

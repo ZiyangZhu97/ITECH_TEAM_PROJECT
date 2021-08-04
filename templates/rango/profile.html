@@ -6,5 +6,13 @@
 {% endblock %}
 
 {% block body_block %}
+    <h1>Profile Page</h1>
+    Username:&nbsp;{{user.username}} <br />
+    Email address:&nbsp;{{user.email}} <br />
+    Current Avatar:&nbsp;&nbsp;<a href="{% url 'rango:update_avatar' user.username%}">Update Avatar</a>
+    <br />
+    <img src="{{ MEDIA_URL }}{{user_profile.picture}}" alt="User Avatar" /> 
+    <br />
+
 
 {% endblock %}

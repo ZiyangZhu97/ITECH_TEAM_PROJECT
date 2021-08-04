@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
-from rango.models import Category
-from rango.models import Page
+from rango.models import Category, Page, User, UserProfile, Comment
 from rango.forms import CategoryForm
 from django.shortcuts import redirect
 from django.urls import reverse
-from rango.forms import PageForm, UserForm, UserProfileForm
+from rango.forms import PageForm, UserForm, UserProfileForm, CommentForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -13,16 +12,21 @@ from datetime import datetime
 
 
 def index(request):
-    category_list=Category.objects.order_by('-likes')[:5]
-    page_list=Page.objects.order_by('-views')[:5]
+    TOPX = 5;
+    liked_category_list=Category.objects.order_by('-likes')[:TOPX]
+    viewed_category_list=Category.objects.order_by('-views')[:TOPX]
+
+    liked_page_list=Page.objects.order_by('-likes')[:TOPX]
+    viewed_page_list=Page.objects.order_by('-views')[:TOPX]
 
     context_dict = {}
-    context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
-    context_dict['categories'] = category_list
-    context_dict['pages'] = page_list
+    context_dict['boldmessage'] = 'Welcome to Rango, we have collected various IT tutorials for you!'
+    context_dict['liked_categories'] = liked_category_list
+    context_dict['liked_pages'] = liked_page_list
+    context_dict['viewed_categories'] = viewed_category_list
+    context_dict['viewed_pages'] = viewed_page_list
+    context_dict['TOPX'] = TOPX
     
-    visitor_cookie_handler(request)
-
     return render(request, 'rango/index.html', context=context_dict)
     
 def about(request):
@@ -43,6 +47,108 @@ def show_category(request, category_name_slug):
         context_dict['pages'] = None
     
     return render(request, 'rango/category.html', context=context_dict)
+
+def show_profile(request, username):
+    context_dict= {}
+    try:
+        user = User.objects.get(username=username)
+        user_profile = UserProfile.objects.get_or_create(user=user)[0]
+        context_dict['user'] = user
+        context_dict['user_profile'] = user_profile
+    except User.DoesNotExist:
+        context_dict['user'] = None
+        context_dict['user_profile'] = None
+
+    return render(request, 'rango/profile.html', context_dict)
+
+def update_avatar(request,username):
+    context_dict= {}
+
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(username=username)
+            user_profile = UserProfile.objects.get_or_create(user=user)[0]  
+            form = UserProfileForm()
+        except TypeError:
+            return redirect(reverse('rango:index'))
+        
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('rango:profile', user.username)
+        else:
+            print(form.errors)
+    else:
+        try:
+            user = User.objects.get(username=username)
+            user_profile = UserProfile.objects.get_or_create(user=user)[0]  
+            form = UserProfileForm()
+            context_dict['user'] = user
+            context_dict['user_profile'] = user_profile
+            context_dict['form'] = form
+        except User.DoesNotExist:
+            context_dict['user'] = None
+            context_dict['user_profile'] = None
+            context_dict['form'] = None
+
+    return render(request, 'rango/update_avatar.html', context_dict)
+
+    
+
+def show_page(request, page_name_slug):
+    context_dict= {}
+    try:
+        page = Page.objects.get(slug=page_name_slug) 
+        context_dict['page'] = page
+    except Page.DoesNotExist:
+        context_dict['page'] = None
+    
+    return render(request, 'rango/page.html', context=context_dict)
+
+def show_page_order_by_likes(request, page_name_slug):
+    context_dict= {}
+    try:
+        page = Page.objects.get(slug=page_name_slug) 
+        context_dict['page'] = page
+    except Page.DoesNotExist:
+        context_dict['page'] = None
+    
+    return render(request, 'rango/page_comment_ordered_by_likes.html', context=context_dict)
+
+
+@login_required
+def add_comment(request, page_name_slug):
+    
+    try:
+        page = Page.objects.get(slug=page_name_slug)
+    except:
+        page = None
+
+    if page is None:
+        context_dict= {}
+        page = Page.objects.get(slug=page_name_slug) 
+        context_dict['page'] = page
+        return redirect('/rango/page.html', context=context_dict)
+
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            if page:
+                comment = form.save(commit=False)
+                comment.page = page
+                comment.author = request.user######
+                comment.likes = 0
+                comment.dislikes = 0
+                comment.save()
+
+                return redirect(reverse('rango:show_page', kwargs={'page_name_slug': page_name_slug}))
+        else:
+            print(form.errors) 
+    
+    context_dict = {'form': form, 'page': page}
+    return render(request, 'rango/add_comment.html', context=context_dict)
 
 @login_required
 def add_category(request):
@@ -79,6 +185,8 @@ def add_page(request, category_name_slug):
                 page = form.save(commit=False)
                 page.category = category
                 page.views = 0
+                page.likes = 0
+                page.dislikes = 0
                 page.save()
 
                 return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))

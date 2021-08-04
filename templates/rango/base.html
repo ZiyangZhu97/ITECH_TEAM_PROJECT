@@ -10,6 +10,7 @@
             {% block title_block %}
                 How to Tango with Django!
             {% endblock %}
+            <hr />
         </title>
     </head>
     <body>
@@ -18,8 +19,10 @@
         {% endblock %}
         </div>
 
+        <hr />
         <div> 
             {% block sidebar_block %}
+                <h2>All Categories</h2>
                 {% get_category_list category %}
             {% endblock %}
         </div>
@@ -29,6 +32,7 @@
             <ul>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'rango:restricted' %}">Restricted Page</a></li>
+                <li><a href="{% url 'rango:profile' user.username %}">Profile Page</a></li>
                 <li><a href="{% url 'rango:logout' %}">Logout</a></li>
                 <li><a href="{% url 'rango:add_category' %}">Add a New Category</a></li>
             {% else %}
