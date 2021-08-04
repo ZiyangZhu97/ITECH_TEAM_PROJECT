@@ -41,6 +41,10 @@ def show_category(request, category_name_slug):
         pages = Page.objects.filter(category=category) 
         context_dict['pages'] = pages
         context_dict['category'] = category
+        is_new_visit=visitor_cookie_handler(request)
+        if is_new_visit:
+            category.views=category.views+1
+            category.save()
     except Category.DoesNotExist:
         context_dict['category'] = None
         context_dict['pages'] = None
@@ -108,6 +112,14 @@ def show_page(request, page_name_slug):
     try:
         page = Page.objects.get(slug=page_name_slug) 
         context_dict['page'] = page
+        is_new_visit=visitor_cookie_handler(request)
+        if is_new_visit:
+            page.views=page.views+1
+            page.save()
+            category = page.category
+            category.views=category.views+1
+            category.save()
+
     except Page.DoesNotExist:
         context_dict['page'] = None
     
@@ -275,7 +287,10 @@ def visitor_cookie_handler(request):
     if (datetime.now() - last_visit_time).seconds > 0:
         visits = visits + 1
         request.session['last_visit'] = str(datetime.now())
+        request.session['visits'] = visits
+        return True
     else:
         request.session['last_visit'] = last_visit_cookie
-
-    request.session['visits'] = visits
+        request.session['visits'] = visits
+        return False
+    
