@@ -1,5 +1,6 @@
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
+{% load rango_template_tags %}
 
 {% block title_block %}
     {% if page %}
@@ -28,21 +29,17 @@
         <a href="{% url 'rango:show_category' page.category.slug %}">{{ page.category.name }}</a>
     </div>
 
-    <div><p>
+    <div><p></p> 
+        
         <h2>Comments</h2>
-        {% if comments %}
-            <ul>
-            {% for c in comments %}
-                <li><strong>{{c.author.username}}</strong>:<p></p>
-                {{c.content}}<p></p>
-                {{c.writtenTime}} <strong>{{c.likes}}</strong> likes <strong>{{c.dislikes}}</strong> dislikes<p></p></li>
-            {% endfor %}
-            </ul>
-        {% endif %}
+        {% block comments_block %}
+        order by time <a href="{% url 'rango:show_page_order_by_likes' page.slug %}">order by likes</a>
+        {% get_comment_list_by_time page%}
+        {% endblock %}    
     </div>
 
     {% else %}
     The specified page does not exist.
     {% endif %}
 
-    {% endblock %}
+{% endblock %}

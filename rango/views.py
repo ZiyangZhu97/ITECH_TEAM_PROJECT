@@ -52,15 +52,22 @@ def show_page(request, page_name_slug):
     context_dict= {}
     try:
         page = Page.objects.get(slug=page_name_slug) 
-        comments = Comment.objects.filter(page=page)
         context_dict['page'] = page
-        context_dict['comments'] = comments
     except Page.DoesNotExist:
         context_dict['page'] = None
-    except Comment.DoesNotExist:
-        context_dict['comments'] = None
     
     return render(request, 'rango/page.html', context=context_dict)
+
+def show_page_order_by_likes(request, page_name_slug):
+    context_dict= {}
+    try:
+        page = Page.objects.get(slug=page_name_slug) 
+        context_dict['page'] = page
+    except Page.DoesNotExist:
+        context_dict['page'] = None
+    
+    return render(request, 'rango/page_comment_ordered_by_likes.html', context=context_dict)
+
 
 @login_required
 def add_comment(request, page_name_slug):

@@ -1,0 +1,8 @@
+{% extends 'rango/page.html' %}
+{% load staticfiles %}
+{% load rango_template_tags %}
+
+{% block comments_block %}
+    <a href="{% url 'rango:show_page' page.slug %}">order by time</a> order by likes
+    {% get_comment_list_by_likes page%}
+{% endblock %}
