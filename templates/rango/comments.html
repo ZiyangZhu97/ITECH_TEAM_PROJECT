@@ -3,7 +3,8 @@
     {% if comments %}
         {% for c in comments %}
             <li>
-                <a href="{% url 'rango:profile' c.author.username %}">{{c.author.username}}:</a>
+                for <a href="{% url 'rango:show_page' c.page.slug %}">{{c.page.title}}</a>, 
+                <a href="{% url 'rango:profile' c.author.username %}">{{c.author.username}}</a>:
                 <p></p>
             {{c.content}}<p></p>
             {{c.writtenTime}} <strong>{{c.likes}}</strong> likes <strong>{{c.dislikes}}</strong> dislikes<p></p>
