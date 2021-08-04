@@ -2,18 +2,27 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Profile for {{ user.username }}
+    Profile for {{ user1.username }}
 {% endblock %}
 
 {% block body_block %}
     <h1>Profile Page</h1>
-    Username:&nbsp;{{user.username}} <br />
-    Email address:&nbsp;{{user.email}} <br />
-    Current Avatar:&nbsp;&nbsp;<a href="{% url 'rango:update_avatar' user.username%}">Update Avatar</a>
-    <br />
-    <img src="{{ MEDIA_URL }}{{user_profile.picture}}" 
+    Username:&nbsp;{{user1.username}} <br />
+    Email address:&nbsp;{{user1.email}} <br />
+    Current Avatar:&nbsp;&nbsp;
+    {% if user == user1 %}
+        <a href="{% url 'rango:update_avatar' user.username%}">Update Avatar</a>
+        <br />
+        <img src="{{ MEDIA_URL }}{{user_profile.picture}}" 
          width="300"
          height="300"
          alt="User Avatar" /> 
+    {% elif user != user1 %}
+        <br />
+        <img src="{{ MEDIA_URL }}{{user_profile1.picture}}" 
+         width="300"
+         height="300"
+         alt="User Avatar" /> 
+    {% endif %}
     <br />
 {% endblock %}
