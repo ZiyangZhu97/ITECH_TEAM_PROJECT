@@ -2,9 +2,12 @@
 <ul>
     {% if comments %}
         {% for c in comments %}
-            <li><strong>{{c.author.username}}</strong>:<p></p>
+            <li>
+                <a href="{% url 'rango:profile' c.author.username %}">{{c.author.username}}:</a>
+                <p></p>
             {{c.content}}<p></p>
-            {{c.writtenTime}} <strong>{{c.likes}}</strong> likes <strong>{{c.dislikes}}</strong> dislikes<p></p></li>
+            {{c.writtenTime}} <strong>{{c.likes}}</strong> likes <strong>{{c.dislikes}}</strong> dislikes<p></p>
+            </li>
         {% endfor %}
     {% else %}
         <li>No comment yet.</li>
