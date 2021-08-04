@@ -51,13 +51,19 @@ def show_category(request, category_name_slug):
 def show_profile(request, username):
     context_dict= {}
     try:
-        user = User.objects.get(username=username)
+        user = request.user
+        user1 = User.objects.get(username=username)
         user_profile = UserProfile.objects.get_or_create(user=user)[0]
+        user_profile1  = UserProfile.objects.get_or_create(user=user1)[0]
         context_dict['user'] = user
+        context_dict['user1'] = user1
         context_dict['user_profile'] = user_profile
+        context_dict['user_profile1'] = user_profile1
     except User.DoesNotExist:
         context_dict['user'] = None
+        context_dict['user1'] = None
         context_dict['user_profile'] = None
+        context_dict['user_profile1'] = None
 
     return render(request, 'rango/profile.html', context_dict)
 
