@@ -55,3 +55,8 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('website', 'picture',)
+
+class UserAvatarForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('picture',)

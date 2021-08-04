@@ -4,7 +4,7 @@ from rango.models import Category, Page, User, UserProfile, Comment
 from rango.forms import CategoryForm
 from django.shortcuts import redirect
 from django.urls import reverse
-from rango.forms import PageForm, UserForm, UserProfileForm, CommentForm
+from rango.forms import PageForm, UserForm, UserProfileForm, CommentForm, UserAvatarForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -68,11 +68,11 @@ def update_avatar(request,username):
         try:
             user = User.objects.get(username=username)
             user_profile = UserProfile.objects.get_or_create(user=user)[0]  
-            form = UserProfileForm()
+            form = UserAvatarForm()
         except TypeError:
             return redirect(reverse('rango:index'))
         
-        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        form = UserAvatarForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save(commit=True)
             return redirect('rango:profile', user.username)
@@ -82,7 +82,7 @@ def update_avatar(request,username):
         try:
             user = User.objects.get(username=username)
             user_profile = UserProfile.objects.get_or_create(user=user)[0]  
-            form = UserProfileForm()
+            form = UserAvatarForm()
             context_dict['user'] = user
             context_dict['user_profile'] = user_profile
             context_dict['form'] = form
