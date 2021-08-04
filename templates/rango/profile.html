@@ -11,8 +11,9 @@
     Email address:&nbsp;{{user.email}} <br />
     Current Avatar:&nbsp;&nbsp;<a href="{% url 'rango:update_avatar' user.username%}">Update Avatar</a>
     <br />
-    <img src="{{ MEDIA_URL }}{{user_profile.picture}}" alt="User Avatar" /> 
+    <img src="{{ MEDIA_URL }}{{user_profile.picture}}" 
+         width="300"
+         height="300"
+         alt="User Avatar" /> 
     <br />
-
-
 {% endblock %}
