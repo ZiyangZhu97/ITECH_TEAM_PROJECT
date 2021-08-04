@@ -17,3 +17,8 @@ def get_comment_list_by_time(current_page=None):
 def get_comment_list_by_likes(current_page=None):
     return {'comments': Comment.objects.filter(page=current_page).order_by('-likes'),
             }
+
+@register.inclusion_tag('rango/comments.html')
+def get_comment_list_by_user(current_user=None):
+    return {'comments': Comment.objects.filter(author=current_user).order_by('-writtenTime'),
+            }
