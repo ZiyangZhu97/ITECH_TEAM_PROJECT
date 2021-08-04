@@ -62,8 +62,6 @@ def show_profile(request, username):
         context_dict['user_profile'] = user_profile
         context_dict['user_profile1'] = user_profile1
     except User.DoesNotExist:
-        user1 = User.objects.get(username=username)
-        user_profile1  = UserProfile.objects.get_or_create(user=user1)[0]
         context_dict['user'] = None
         context_dict['user1'] = None
         context_dict['user_profile'] = None
