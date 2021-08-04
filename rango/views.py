@@ -4,7 +4,11 @@ from rango.models import Category, Page, User, UserProfile, Comment
 from rango.forms import CategoryForm
 from django.shortcuts import redirect
 from django.urls import reverse
+<<<<<<< HEAD
 from rango.forms import PageForm, UserForm, UserProfileForm, CommentForm
+=======
+from rango.forms import PageForm, UserForm, UserProfileForm, CommentForm, UserAvatarForm
+>>>>>>> 42852633793f39703c97814a8c3e16ecff4d19ce
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -48,6 +52,56 @@ def show_category(request, category_name_slug):
     
     return render(request, 'rango/category.html', context=context_dict)
 
+<<<<<<< HEAD
+=======
+def show_profile(request, username):
+    context_dict= {}
+    try:
+        user = User.objects.get(username=username)
+        user_profile = UserProfile.objects.get_or_create(user=user)[0]
+        context_dict['user'] = user
+        context_dict['user_profile'] = user_profile
+    except User.DoesNotExist:
+        context_dict['user'] = None
+        context_dict['user_profile'] = None
+
+    return render(request, 'rango/profile.html', context_dict)
+
+def update_avatar(request,username):
+    context_dict= {}
+
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(username=username)
+            user_profile = UserProfile.objects.get_or_create(user=user)[0]  
+            form = UserAvatarForm()
+        except TypeError:
+            return redirect(reverse('rango:index'))
+        
+        form = UserAvatarForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('rango:profile', user.username)
+        else:
+            print(form.errors)
+    else:
+        try:
+            user = User.objects.get(username=username)
+            user_profile = UserProfile.objects.get_or_create(user=user)[0]  
+            form = UserAvatarForm()
+            context_dict['user'] = user
+            context_dict['user_profile'] = user_profile
+            context_dict['form'] = form
+        except User.DoesNotExist:
+            context_dict['user'] = None
+            context_dict['user_profile'] = None
+            context_dict['form'] = None
+
+    return render(request, 'rango/update_avatar.html', context_dict)
+
+    
+
+>>>>>>> 42852633793f39703c97814a8c3e16ecff4d19ce
 def show_page(request, page_name_slug):
     context_dict= {}
     try:
