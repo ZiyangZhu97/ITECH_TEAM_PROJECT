@@ -53,7 +53,7 @@ def show_category(request, category_name_slug):
             pages = Page.objects.filter(category=category) 
             context_dict['pages'] = pages
             context_dict['category'] = category
-            is_new_visit=visitor_cookie_handler(request)
+            is_new_visit=visitor_cookie_handler(request)#count up visits
             if is_new_visit:
                 category.views=category.views+1
                 category.save()
@@ -145,7 +145,7 @@ def show_page(request, page_name_slug):
     try:
         page = Page.objects.get(slug=page_name_slug) 
         context_dict['page'] = page
-        is_new_visit=visitor_cookie_handler(request)
+        is_new_visit=visitor_cookie_handler(request)    #count up visits, a visit to a page also contributes to the visits of category
         if is_new_visit:
             page.views=page.views+1
             page.save()
@@ -317,7 +317,7 @@ def visitor_cookie_handler(request):
     last_visit_cookie = get_server_side_cookie(request, 'last_visit', str(datetime.now()))
     last_visit_time = datetime.strptime(last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
 
-    if (datetime.now() - last_visit_time).seconds > 0:
+    if (datetime.now() - last_visit_time).seconds > 3:  #each user can contribute to a visit every 3s
         visits = visits + 1
         request.session['last_visit'] = str(datetime.now())
         request.session['visits'] = visits
