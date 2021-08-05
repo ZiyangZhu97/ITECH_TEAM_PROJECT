@@ -1,0 +1,21 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Update Avatar
+{% endblock %}
+
+{% block body_block %}
+<div class="jumbotron p-4">
+    <div class="container">
+        <h1 class="jumbotron-heading">Update your Avatar</h1>
+    </div>
+</div>
+<div>
+    <form method="post" action="{% url 'rango:update_avatar' user.username %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.picture}}
+        <input type="submit" name="submit" value="Update" />
+    </form>
+</div>
+{% endblock %}
