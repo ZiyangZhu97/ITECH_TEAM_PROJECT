@@ -14,7 +14,7 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('restricted/', views.restricted, name='restricted'),
     path('profile/<username>/', views.show_profile, name='profile'),
-    path('profile/<username>/update_avatar/', views.update_avatar, name='update_avatar'),
+    path('profile/<username>/update_profile/', views.update_profile, name='update_profile'),
     path('logout/', views.user_logout, name='logout'),
 
     path('<slug:page_name_slug>/', views.show_page, name='show_page'),

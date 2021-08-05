@@ -53,29 +53,6 @@ def show_category(request, category_name_slug):
 
 def show_profile(request, username):
     context_dict= {}
-    try:
-        user = request.user
-        user1 = User.objects.get(username=username)
-        if request.user.is_authenticated:
-            user_profile = UserProfile.objects.get_or_create(user=user)[0]
-        else:
-            user_profile = None
-        user_profile1  = UserProfile.objects.get_or_create(user=user1)[0]
-        context_dict['user'] = user
-        context_dict['user1'] = user1
-        context_dict['user_profile'] = user_profile
-        context_dict['user_profile1'] = user_profile1
-    except User.DoesNotExist:
-        context_dict['user'] = None
-        context_dict['user1'] = None
-        context_dict['user_profile'] = None
-        context_dict['user_profile1'] = None
-
-    return render(request, 'rango/profile.html', context_dict)
-
-def update_avatar(request,username):
-    context_dict= {}
-
     if request.method == 'POST':
         try:
             user = User.objects.get(username=username)
@@ -92,18 +69,62 @@ def update_avatar(request,username):
             print(form.errors)
     else:
         try:
-            user = User.objects.get(username=username)
-            user_profile = UserProfile.objects.get_or_create(user=user)[0]  
+            user = request.user
+            user1 = User.objects.get(username=username)
+            if request.user.is_authenticated:
+                user_profile = UserProfile.objects.get_or_create(user=user)[0]
+            else:
+                user_profile = None
+            user_profile1  = UserProfile.objects.get_or_create(user=user1)[0]
             form = UserAvatarForm()
             context_dict['user'] = user
+            context_dict['user1'] = user1
             context_dict['user_profile'] = user_profile
+            context_dict['user_profile1'] = user_profile1
             context_dict['form'] = form
         except User.DoesNotExist:
             context_dict['user'] = None
+            context_dict['user1'] = None
             context_dict['user_profile'] = None
+            context_dict['user_profile1'] = None
             context_dict['form'] = None
 
-    return render(request, 'rango/update_avatar.html', context_dict)
+    return render(request, 'rango/profile.html', context_dict)
+
+def update_profile(request,username):
+    context_dict= {}
+
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(username=username)
+            user_profile = UserProfile.objects.get_or_create(user=user)[0]
+        except TypeError:
+            return redirect(reverse('rango:index'))
+
+        username = request.POST.get('username',None)
+        email = request.POST.get('email',None)
+        if username != None:
+            user.username = username
+        if email != None:
+            user.email = email
+        user.save()
+
+        user_profile.user = user
+        user_profile.save()
+
+        return redirect('rango:profile', user.username)
+        
+    else:
+        try:
+            user = User.objects.get(username=username)
+            user_profile = UserProfile.objects.get_or_create(user=user)[0]
+            context_dict['user'] = user
+            context_dict['user_profile'] = user_profile
+        except User.DoesNotExist:
+            context_dict['user'] = None
+            context_dict['user_profile'] = None
+
+    return render(request, 'rango/update_profile.html', context_dict)
 
     
 
