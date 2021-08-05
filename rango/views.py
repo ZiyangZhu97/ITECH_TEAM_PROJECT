@@ -275,22 +275,22 @@ class LikePageView(View):
 
         return HttpResponse(page.likes)
 
-# class DislikePageView(View):
-#     @method_decorator(login_required)
-#     def get(self, request):
-#         page_id = request.GET['page_id']
+class DislikePageView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        page_id = request.GET['page_id']
 
-#         try:
-#             page = Page.objects.get(id=int(page_id))
-#         except Page.DoesNotExist:
-#             return HttpResponse(-1)
-#         except ValueError:
-#             return HttpResponse(-1)
+        try:
+            page = Page.objects.get(id=int(page_id))
+        except Page.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
         
-#         page.dislikes = page.dislikes + 1
-#         page.save()
+        page.dislikes = page.dislikes + 1
+        page.save()
 
-#         return HttpResponse(page.dislikes)
+        return HttpResponse(page.dislikes)
 
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)

@@ -7,7 +7,7 @@ $(document).ready(function() {
             {'category_id': categoryIdVar},
             function(data) {
                 $('#catelike_count').html(data);
-                $('#catelike_btn').hide();
+                // $('#catelike_btn').hide();
             })
     });
 
@@ -16,25 +16,25 @@ $(document).ready(function() {
         var pageIdVar;
         pageIdVar = $(this).attr('data-pageid');
 
-        $.get('/rango/like_page/',
+        $.get('/like_page/',
             {'page_id': pageIdVar},
             function(data) {
                 $('#like_count').html(data);
-                $('#like_btn').hide();
+                // $('#like_btn').hide();
             })
     });
 
-    // $('#dislike_btn').click(function() {
-    //     var pageIdVar;
-    //     pageIdVar = $(this).attr('data-pageid');
+    $('#dislike_btn').click(function() {
+        var pageIdVar;
+        pageIdVar = $(this).attr('data-pageid');
 
-    //     $.get('/rango/dislike_page/',
-    //         {'page_id': pageIdVar},
-    //         function(data) {
-    //             $('#dislike_count').html(data);
-    //             $('#dislike_btn').hide();
-    //         })
-    // });
+        $.get('/dislike_page/',
+            {'page_id': pageIdVar},
+            function(data) {
+                $('#dislike_count').html(data);
+                // $('#dislike_btn').hide();
+            })
+    });
 
     
 

@@ -26,4 +26,8 @@ urlpatterns = [
     # 3 - The above maps any URLs starting with rango/ to be handled by rango.
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),
+
+    path('like_page/', views.LikePageView.as_view(), name='like_page'),
+    path('dislike_page/', views.DislikePageView.as_view(), name='dislike_page'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

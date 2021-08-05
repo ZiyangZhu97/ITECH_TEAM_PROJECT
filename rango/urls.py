@@ -19,8 +19,6 @@ urlpatterns = [
     path('<slug:page_name_slug>/order-by-likes', views.show_page_order_by_likes, name='show_page_order_by_likes'),
     path('<slug:page_name_slug>/add-comment', views.add_comment, name='add_comment'),
 
-    path('like_page/', views.LikePageView.as_view(), name='like_page'),
-    # path('dislike_page/', views.DislikePageView.as_view(), name='dislike_page'),
+    
 
-   
 ]
