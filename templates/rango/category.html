@@ -12,7 +12,14 @@
 {% block body_block %}
     {% if category %}
         <h1>{{ category.name }}</h1>
-        {{ category.views}} visits
+        {{ category.views}} visits <br />
+		<div>
+            <form method="post" action="{% url 'rango:show_category' category.slug %}" enctype="multipart/form-data">
+                {% csrf_token %} 
+                <input type="text" name="keyword" value ="{{keyword}}">
+                <input type="submit" name="submit" value="Search" />
+            </form>
+        </div>
         {% if pages %}
         <ul>
             {% for page in pages %}
