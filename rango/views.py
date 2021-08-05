@@ -36,43 +36,32 @@ def about(request):
 
 def show_category(request, category_name_slug):
     context_dict= {}
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+        context_dict['category'] = category
+    except Category.DoesNotExist:
+        return redirect(reverse('rango:index'))
+
     if request.method == 'POST':
-        try:
-            keyword = request.POST.get('keyword',None)
-            category = Category.objects.get(slug=category_name_slug)
-            pages = Page.objects.filter(category=category).filter(title__contains=keyword)
-            context_dict['pages'] = pages
-            context_dict['category'] = category
-            context_dict['keyword'] = keyword
-        except Category.DoesNotExist:
-            context_dict['category'] = None
-            context_dict['pages'] = None
+        keyword = request.POST.get('keyword',None)
+        pages = Page.objects.filter(category=category).filter(title__contains=keyword)
+        context_dict['pages'] = pages
+        context_dict['keyword'] = keyword
     else:
-        try:
-            category = Category.objects.get(slug=category_name_slug)
-            pages = Page.objects.filter(category=category) 
-            context_dict['pages'] = pages
-            context_dict['category'] = category
-            is_new_visit=visitor_cookie_handler(request)#count up visits
-            if is_new_visit:
-                category.views=category.views+1
-                category.save()
-        except Category.DoesNotExist:
-            context_dict['category'] = None
-            context_dict['pages'] = None
+        pages = Page.objects.filter(category=category) 
+        context_dict['pages'] = pages
+        is_new_visit=visitor_cookie_handler(request) #count up visits
+        if is_new_visit:
+            category.views=category.views+1
+            category.save()
         
     return render(request, 'rango/category.html', context=context_dict)
 
 def show_profile(request, username):
     context_dict= {}
     if request.method == 'POST':
-        try:
-            user = User.objects.get(username=username)
-            user_profile = UserProfile.objects.get_or_create(user=user)[0]  
-            form = UserAvatarForm()
-        except TypeError:
-            return redirect(reverse('rango:index'))
-        
+        user = User.objects.get(username=username)
+        user_profile = UserProfile.objects.get_or_create(user=user)[0]  
         form = UserAvatarForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save(commit=True)
@@ -81,6 +70,8 @@ def show_profile(request, username):
             print(form.errors)
     else:
         try:
+            # user is request user (can be authenticated or unauthenticated)
+            # user1 is selected user
             user = request.user
             user1 = User.objects.get(username=username)
             if request.user.is_authenticated:
@@ -107,14 +98,11 @@ def update_profile(request,username):
     context_dict= {}
 
     if request.method == 'POST':
-        try:
-            user = User.objects.get(username=username)
-            user_profile = UserProfile.objects.get_or_create(user=user)[0]
-        except TypeError:
-            return redirect(reverse('rango:index'))
-
+        user = User.objects.get(username=username)
+        user_profile = UserProfile.objects.get_or_create(user=user)[0]
         username = request.POST.get('username',None)
         email = request.POST.get('email',None)
+
         if username != None:
             user.username = username
         if email != None:
