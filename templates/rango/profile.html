@@ -7,18 +7,26 @@
 
 {% block body_block %}
     <h1>Profile Page</h1>
-    Username:&nbsp;{{user1.username}} <br />
-    Email address:&nbsp;{{user1.email}} <br />
-    Current Avatar:&nbsp;&nbsp;
+    
     {% if user == user1 %}
-        <a href="{% url 'rango:update_avatar' user.username%}">Update Avatar</a>
-        <br />
+        Username:&nbsp;{{user1.username}} &nbsp;&nbsp;<a href="{% url 'rango:update_profile' user.username%}">Update Profile</a>
+        <br /> Email address:&nbsp;{{user1.email}} <br />
+        Current Avatar: <br />
         <img src="{{ MEDIA_URL }}{{user_profile.picture}}" 
-         width="300"
-         height="300"
+         width="350"
+         height="350"
          alt="User Avatar" /> 
+         <div>
+            <form method="post" action="{% url 'rango:profile' user.username %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.picture}}
+                <input type="submit" name="submit" value="Update Avatar" />
+            </form>
+        </div>
     {% elif user != user1 %}
-        <br />
+        Username:&nbsp;{{user1.username}}
+        <br /> Email address:&nbsp;{{user1.email}} <br />
+        Current Avatar: <br />
         <img src="{{ MEDIA_URL }}{{user_profile1.picture}}" 
          width="300"
          height="300"

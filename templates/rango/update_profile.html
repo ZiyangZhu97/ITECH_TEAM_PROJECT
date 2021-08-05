@@ -1,0 +1,22 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Update Avatar
+{% endblock %}
+
+{% block body_block %}
+<h1>Update your Profile</h1>
+<div>
+    <form method="post" action="{% url 'rango:update_profile' user.username %}" enctype="multipart/form-data">
+        {% csrf_token %} 
+        Username:
+        <input type="text" name="username" value="{{user.username}}" pattern="[a-zA-Z0-9_-]{4,16}" required="required">
+        <br><br>
+        Email address:
+        <input type="text" name="email" value="{{user.email}}" pattern="[A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})">
+        <br><br>
+        <input type="submit" name="submit" value="Submit" />
+    </form>
+</div>
+{% endblock %}
