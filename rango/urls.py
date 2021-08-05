@@ -13,7 +13,8 @@ urlpatterns = [
     path('like_category/', views.LikeCategoryView.as_view(), name='like_category'),
 
     path('profile/<username>/', views.show_profile, name='profile'),
-    path('profile/<username>/update_avatar/', views.update_avatar, name='update_avatar'),
+    path('profile/<username>/update_profile/', views.update_profile, name='update_profile'),
+
 
     path('<slug:page_name_slug>/', views.show_page, name='show_page'),
     path('<slug:page_name_slug>/order-by-likes', views.show_page_order_by_likes, name='show_page_order_by_likes'),
