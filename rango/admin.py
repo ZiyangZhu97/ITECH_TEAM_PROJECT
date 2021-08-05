@@ -2,7 +2,6 @@ from django.contrib import admin
 from rango.models import Category, Page
 from rango.models import UserProfile, Comment
 
-# Register your models here.
 
 class PageAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'url')

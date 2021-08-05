@@ -6,7 +6,11 @@
 {% endblock %}
 
 {% block body_block %}
-<h1>Add your Comment to '{{ page.title }}'</h1>
+<div class="jumbotron p-4">
+    <div class="container">
+        <h1 class="jumbotron-heading">Add your Comment to '{{ page.title }}</h1>
+    </div>
+</div>
 <div>
     <form id="add_comment_form" method="post" action="{% url 'rango:add_comment' page.slug %}">
         {% csrf_token %}
@@ -24,3 +28,4 @@
     </form>
 </div>
 {% endblock %}
+

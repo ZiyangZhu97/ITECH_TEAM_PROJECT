@@ -6,7 +6,11 @@
 {% endblock %}
 
 {% block body_block %}
-<h1>Update your Profile</h1>
+<div class="jumbotron p-4">
+    <div class="container">
+        <h1 class="jumbotron-heading">Update your Profile</h1>
+    </div>
+</div>
 <div>
     <form method="post" action="{% url 'rango:update_profile' user.username %}" enctype="multipart/form-data">
         {% csrf_token %} 

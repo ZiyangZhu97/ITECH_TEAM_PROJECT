@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
+from django.http import HttpResponse
 from rango.models import Category, Page, User, UserProfile, Comment
 from rango.forms import CategoryForm
 from django.shortcuts import redirect
@@ -8,7 +9,8 @@ from rango.forms import PageForm, UserForm, UserProfileForm, CommentForm, UserAv
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-
+from django.utils.decorators import method_decorator
+from django.views import View
 
 def index(request):
     TOPX = 5;
@@ -27,7 +29,7 @@ def index(request):
     context_dict['TOPX'] = TOPX
     
     return render(request, 'rango/index.html', context=context_dict)
-    
+
 def about(request):
     context_dict = {}
     visitor_cookie_handler(request)
@@ -126,8 +128,6 @@ def update_profile(request,username):
 
     return render(request, 'rango/update_profile.html', context_dict)
 
-    
-
 def show_page(request, page_name_slug):
     context_dict= {}
     try:
@@ -155,7 +155,6 @@ def show_page_order_by_likes(request, page_name_slug):
         context_dict['page'] = None
     
     return render(request, 'rango/page_comment_ordered_by_likes.html', context=context_dict)
-
 
 @login_required
 def add_comment(request, page_name_slug):
@@ -200,7 +199,7 @@ def add_category(request):
 
         if form.is_valid():
             form.save(commit=True)
-            return redirect('/rango/')
+            return redirect(reverse('rango:index'))
         else:
             print(form.errors)
     
@@ -237,62 +236,61 @@ def add_page(request, category_name_slug):
     context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_page.html', context=context_dict)
 
-def register(request):
-    registered = False
-
-    if request.method == 'POST':
-        user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
-
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            user.set_password(user.password)
-            user.save()
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-            
-            profile.save()
-            registered = True
-        else:
-            print(user_form.errors, profile_form.errors)
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-    
-    return render(request, 'rango/register.html', context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
-
-
-def user_login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        user = authenticate(username=username, password=password)
-
-        if user:
-            if user.is_active:
-                login(request, user)
-                return redirect(reverse('rango:index'))
-            else:
-                return HttpResponse("Your Rango account is disabled.")
-        else:
-            print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
-    else:
-        return render(request, 'rango/login.html')
-
 @login_required
 def restricted(request):
     return render(request, 'rango/restricted.html')
 
-@login_required
-def user_logout(request):
-    logout(request)
-    return redirect(reverse('rango:index'))
+class LikeCategoryView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        category_id = request.GET['category_id']
+
+        try:
+            category = Category.objects.get(id=int(category_id))
+        except Category.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        category.likes = category.likes + 1
+        category.save()
+
+        return HttpResponse(category.likes)
+
+
+class LikePageView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        page_id = request.GET['page_id']
+
+        try:
+            page = Page.objects.get(id=int(page_id))
+        except Page.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        page.likes = page.likes + 1
+        page.save()
+
+        return HttpResponse(page.likes)
+
+# class DislikePageView(View):
+#     @method_decorator(login_required)
+#     def get(self, request):
+#         page_id = request.GET['page_id']
+
+#         try:
+#             page = Page.objects.get(id=int(page_id))
+#         except Page.DoesNotExist:
+#             return HttpResponse(-1)
+#         except ValueError:
+#             return HttpResponse(-1)
+        
+#         page.dislikes = page.dislikes + 1
+#         page.save()
+
+#         return HttpResponse(page.dislikes)
 
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)
@@ -314,4 +312,3 @@ def visitor_cookie_handler(request):
         request.session['last_visit'] = last_visit_cookie
         request.session['visits'] = visits
         return False
-    
