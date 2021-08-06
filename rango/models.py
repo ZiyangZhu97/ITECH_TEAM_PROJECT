@@ -57,7 +57,7 @@ class Comment(models.Model):
     content = models.TextField(max_length=COMMENT_MAX_LENGTH)
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
-    writtenTime = models.DateTimeField(auto_now=True)
+    writtenTime = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.author.username+" "+self.writtenTime.__str__()

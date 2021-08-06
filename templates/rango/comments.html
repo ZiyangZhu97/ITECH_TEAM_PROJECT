@@ -1,27 +1,27 @@
 
-<ul>
+<ul id="myul">
     {% if comments %}
         {% for c in comments %}
             
-                <button id="comment_like_btn{{ c.id }}" data-commentid="{{ c.id }}" class="btn btn-primary btn-sm" type="button">
+                <button id="comment_like_btn{{ c.id }}" data-commentid="{{ c.id }}" class="btn btn-primary btn-sm like" type="button">
                     <span data-feather="thumbs-up"></span>
                     <!-- text on botton here -->
                 </button>
                 
-                <button id="comment_dislike_btn{{ c.id }}" data-commentid="{{ c.id }}" class="btn btn-primary btn-sm" type="button">
+                <button id="comment_dislike_btn{{ c.id }}" data-commentid="{{ c.id }}" class="btn btn-primary btn-sm dislike" type="button">
                     <span data-feather="thumbs-down"></span>
                     <!-- text on botton here -->
                 </button>
             
 
-            <li>
+            <li class="count">
                 for <a href="{% url 'rango:show_page' c.page.slug %}">{{c.page.title}}</a>, 
                 <a href="{% url 'rango:profile' c.author.username %}">{{c.author.username}}</a>:
                 <div>{{c.content}}</div>
                 <div>
                     {{c.writtenTime}} 
-                    <strong id="comment_like_count{{ c.id }}">{{c.likes}}</strong> likes
-                    <strong id="comment_dislike_count{{ c.id }}">{{c.dislikes}}</strong> dislikes
+                    <strong class="like_count" id="comment_like_count{{ c.id }}">{{c.likes}}</strong> likes
+                    <strong class="dislike_count" id="comment_dislike_count{{ c.id }}">{{c.dislikes}}</strong> dislikes
                 </div>
             </li><p></p>
         {% endfor %}
