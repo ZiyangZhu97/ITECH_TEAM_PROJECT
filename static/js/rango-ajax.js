@@ -68,7 +68,6 @@ for(var i = 0; i < btnLen; i++){
             })
     });
 
-
     $("#myul").children(".dislike").eq(i).click(function() {
         var commentIdVar;
         commentIdVar = $(this).attr('data-commentid');
