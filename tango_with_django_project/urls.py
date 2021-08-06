@@ -30,4 +30,7 @@ urlpatterns = [
     path('like_page/', views.LikePageView.as_view(), name='like_page'),
     path('dislike_page/', views.DislikePageView.as_view(), name='dislike_page'),
 
+    path('comment_like_page/', views.LikeCommentView.as_view(), name='like_page'),
+    path('comment_dislike_page/', views.DislikeCommentView.as_view(), name='dislike_page'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

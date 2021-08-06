@@ -36,6 +36,30 @@ $(document).ready(function() {
             })
     });
 
+    $('#comment_like_btn').click(function() {
+        var commentIdVar;
+        commentIdVar = $(this).attr('data-commentid');
+
+        $.get('/comment_like_page/',
+            {'comment_id': commentIdVar},
+            function(data) {
+                $('#comment_like_count').html(data);
+                // $('#like_btn').hide();
+            })
+    });
+
+    $('#comment_dislike_btn').click(function() {
+        var commentIdVar;
+        commentIdVar = $(this).attr('data-commentid');
+
+        $.get('/comment_dislike_page/',
+            {'comment_id': commentIdVar},
+            function(data) {
+                $('#comment_dislike_count').html(data);
+                // $('#dislike_btn').hide();
+            })
+    });
+
     
 
 });
