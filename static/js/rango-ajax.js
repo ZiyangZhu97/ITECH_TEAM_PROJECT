@@ -36,30 +36,54 @@ $(document).ready(function() {
             })
     });
 
-    $('#comment_like_btn').click(function() {
+
+
+    
+var btnLen = $("#myul").children(".like").length;
+console.log("btnLen:" + btnLen)
+for(var i = 0; i < btnLen; i++){
+    console.log("i:"+i);
+    $("#myul").children(".like").eq(i).click(function() {
+        console.log("click")
         var commentIdVar;
         commentIdVar = $(this).attr('data-commentid');
-
+        var ii = i;
         $.get('/comment_like_page/',
             {'comment_id': commentIdVar},
             function(data) {
-                $('#comment_like_count').html(data);
+                console.log("likedata:"+data);
+                console.log("i:"+i);
+                console.log("ii:"+ii);
+                console.log("len1:"+$("#myul").children(".count").length)
+                console.log("len2:"+$("#myul").children(".count").eq(i).length)
+                console.log("len2:"+$("#myul").children(".count").eq(ii).length)
+                console.log("len3:"+$("#myul").children(".count").eq(i)
+                    .find(".like_count").length)
+                console.log("len3:"+$("#myul").children(".count").eq(ii)
+                    .find(".like_count").length)
+                $("#myul").children(".count").eq(ii)
+                    .find(".like_count").eq(0).html(data);
                 // $('#like_btn').hide();
+                window.location.reload()
             })
     });
 
-    $('#comment_dislike_btn').click(function() {
+
+    $("#myul").children(".dislike").eq(i).click(function() {
         var commentIdVar;
         commentIdVar = $(this).attr('data-commentid');
 
         $.get('/comment_dislike_page/',
             {'comment_id': commentIdVar},
             function(data) {
-                $('#comment_dislike_count').html(data);
+                console.log("dislikedata:"+data);
+                $("#myul").children(".count").eq(i)
+                    .children(".dislike_count").eq(0).html(data);
                 // $('#dislike_btn').hide();
+                window.location.reload()
             })
     });
-
+}
     
 
 });
