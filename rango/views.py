@@ -143,7 +143,7 @@ def show_page(request, page_name_slug):
 
     except Page.DoesNotExist:
         context_dict['page'] = None
-    
+    context_dict['user'] = request.user
     return render(request, 'rango/page.html', context=context_dict)
 
 def show_page_order_by_likes(request, page_name_slug):

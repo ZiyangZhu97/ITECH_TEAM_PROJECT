@@ -2,13 +2,13 @@
 <ul>
     {% if comments %}
         {% for c in comments %}
-            {{}}
-                <button id="comment_like_btn{{c.id}}" data-commentid="{{ c.id }}" class="btn btn-primary btn-sm" type="button">
+            
+                <button id="comment_like_btn" data-commentid="{{ c.id }}" class="btn btn-primary btn-sm" type="button">
                     <span data-feather="thumbs-up"></span>
                     <!-- text on botton here -->
                 </button>
                 
-                <button id="comment_dislike_btn{{c.id}}" data-commentid="{{ c.id }}" class="btn btn-primary btn-sm" type="button">
+                <button id="comment_dislike_btn" data-commentid="{{ c.id }}" class="btn btn-primary btn-sm" type="button">
                     <span data-feather="thumbs-down"></span>
                     <!-- text on botton here -->
                 </button>

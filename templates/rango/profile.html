@@ -40,6 +40,10 @@
     <br />
 
     <h2>Past Comments</h2>
+    {% if user.is_authenticated %}
         {% get_comment_list_by_user user1%}
+    {% else %}
+        Log in to see the user's past comments!
+    {% endif%} 
 
 {% endblock %}

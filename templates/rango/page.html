@@ -50,10 +50,14 @@
     <div>
         
         <h2>Comments</h2>
-        {% block comments_block %}
-        order by time <a href="{% url 'rango:show_page_order_by_likes' page.slug %}">order by likes</a>
-        {% get_comment_list_by_time page%}
-        {% endblock %}    
+        {% if user.is_authenticated %}
+            {% block comments_block %}
+            order by time <a href="{% url 'rango:show_page_order_by_likes' page.slug %}">order by likes</a>
+            {% get_comment_list_by_time page%}
+            {% endblock %} 
+        {% else %}
+            Log in to see comments!
+        {% endif%}   
     </div>
 
     {% else %}
