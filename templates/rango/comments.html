@@ -20,8 +20,8 @@
                 <div>{{c.content}}</div>
                 <div>
                     {{c.writtenTime}} 
-                    <strong id="comment_like_count">{{c.likes}}</strong> likes
-                    <strong id="comment_dislike_count">{{c.dislikes}}</strong> dislikes
+                    <strong id="comment_like_count{{ c.id }}">{{c.likes}}</strong> likes
+                    <strong id="comment_dislike_count{{ c.id }}">{{c.dislikes}}</strong> dislikes
                 </div>
             </li><p></p>
         {% endfor %}
