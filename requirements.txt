@@ -1,0 +1,24 @@
+asgiref==3.4.1
+atomicwrites==1.4.0
+attrs @ file:///tmp/build/80754af9/attrs_1620827162558/work
+certifi==2021.5.30
+colorama @ file:///tmp/build/80754af9/colorama_1607707115595/work
+confusable-homoglyphs==3.2.0
+Django==2.1.5
+django-registration==2.4.1
+importlib-metadata @ file:///C:/ci/importlib-metadata_1617877486026/work
+iniconfig @ file:///home/linux1/recipes/ci/iniconfig_1610983019677/work
+more-itertools @ file:///tmp/build/80754af9/more-itertools_1622818384463/work
+olefile==0.46
+packaging @ file:///tmp/build/80754af9/packaging_1625611678980/work
+Pillow @ file:///C:/ci/pillow_1625663286921/work
+pluggy @ file:///C:/ci/pluggy_1615976530170/work
+py @ file:///tmp/build/80754af9/py_1607971587848/work
+pyparsing @ file:///home/linux1/recipes/ci/pyparsing_1610983426697/work
+pytest==6.2.4
+pytz @ file:///tmp/build/80754af9/pytz_1612215392582/work
+sqlparse==0.4.1
+toml @ file:///tmp/build/80754af9/toml_1616166611790/work
+typing-extensions @ file:///tmp/build/80754af9/typing_extensions_1624965014186/work
+wincertstore==0.2
+zipp @ file:///tmp/build/80754af9/zipp_1625570634446/work
